@@ -46,3 +46,5 @@ coverage.xml
 docs/_build/
 # PyBuilder
 target/
+# Credentials file 
+credentials.py
