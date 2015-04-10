@@ -29,7 +29,10 @@ class twitter_data(object):
 		return api 
 
 	def get_tweets(self, api): 
-		""" Get a user's most recent tweets """ 
+		""" Get a user's most recent tweets
+		@param api : the api object returned by the authentication method 
+		@return list of tweets 
+		 """ 
 
 		pos_extracter = keyword_extracting_algorithms.part_of_speech_extracter()
 		user = api.get_user(self.username)
@@ -46,7 +49,6 @@ class twitter_data(object):
 
 		api = self.authentication()
 		my_tweets = self.get_tweets(api)
-		print my_tweets
 		return my_tweets
 
 
@@ -55,7 +57,7 @@ class twitter_data(object):
 def main(): 
 	td = twitter_data('testuser242')
 	api = td.authentication()
-	td.twitter_data_wrapper()
+	print td.twitter_data_wrapper()
 
 
 

@@ -10,18 +10,19 @@ class part_of_speech_extracter(object):
 
 	def parse_nouns_and_verbs(self, tweet_list): 
 		""" For each tweet, pull out only the nouns and verbs in the tweet and 
-		return a corresponding list """  
+		return a corresponding list 
+		@param tweet_list: the list of input tweets 
+		"""  
 
 		tweet_list = [str(x) for x in tweet_list]
 		for tweet in tweet_list: 
 			tokens = nltk.word_tokenize(tweet)
 			tagged = nltk.pos_tag(tokens)
 			for word in tagged: 
-				if word[1] =='NN' or word[1] == 'NNP' or word[1]== 'NNPS' or word[1] == 'VBD' or word[1] == 'VBN': #tags are just nouns for the time being
+				if word[1] =='NN' or word[1] == 'NNP' or word[1]== 'NNPS' or word[1] == 'VBD' or word[1] == 'VBN': 
 					cur_freq = self.popular_words_dictionary.get(word[0], 0)
 					cur_freq += 1 
 					self.popular_words_dictionary[word[0]] = cur_freq
-		return self.popular_words_dictionary
 
 class tf_idf(object): 
 	""" Class that implements the TF-IDF (term frequency, inverse document frequency) algorithm """
@@ -32,8 +33,12 @@ class tf_idf(object):
 		self.popular_words_dictionary = {}
 		self.corpora_word_freq_dict 
 
+		
 	def tf_idf(self, word, frequency):
-		""" Main TF-IDF method """ 
+		""" Main TF-IDF method 
+			@param word: the word we want the weight for 
+			@param frequency: the frequency of that word in the input 
+		""" 
 		pass
 
 
