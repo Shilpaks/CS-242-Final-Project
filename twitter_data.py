@@ -1,11 +1,13 @@
 import credentials
 import keyword_extracting_algorithms 
 import tweepy
+import spell_checker
 import nltk
 
 class twitter_data(object): 
 	""" Twitter data class -- responsible for authentication, storing keywords, and is tied to a 
 	user object """ 
+
 	def __init__(self, username): 
 
 		self.username = username
@@ -17,16 +19,17 @@ class twitter_data(object):
 	def authentication(self): 
 		""" OAuth Authentication for Twitter API """ 
 
-		consumer_key = credentials.consumer_key
-		consumer_secret = credentials.consumer_secret
-		access_token = credentials.access_token
-		access_token_secret = credentials.access_token_secret
+		consumer_key = credentials.twitter_consumer_key
+		consumer_secret = credentials.twitter_consumer_secret
+		access_token = credentials.twitter_access_token
+		access_token_secret = credentials.twitter_access_token_secret
 		auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 		auth.set_access_token(access_token, access_token_secret)
 		auth.secure = True
 		api = tweepy.API(auth)
 
 		return api 
+
 
 	def get_tweets(self, api): 
 		""" Get a user's most recent tweets
@@ -42,6 +45,7 @@ class twitter_data(object):
 			my_tweets.append(tweet.text)
 
 		return [str(x) for x in my_tweets]
+
 
 
 	def twitter_data_wrapper(self): 

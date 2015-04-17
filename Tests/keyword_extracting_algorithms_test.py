@@ -47,7 +47,60 @@ def test_parse_nouns_and_verbs4():
 def test_parse_nouns_and_verbs5():
 	""" Test that the part of speech extracter is extracting only nouns and verbs """
 
-	dictionary = set_up_parse_nouns_and_verbs(["Twitter", "run"])
+	dictionary = set_up_parse_nouns_and_verbs(["twitter", "run"])
 	pos_extracter = keyword_extracting_algorithms.part_of_speech_extracter()
 
-	assert (dictionary==pos_extracter.parse_nouns_and_verbs(["Twitter", "run"]))
+	assert (dictionary==pos_extracter.parse_nouns_and_verbs(["twitter", "run"]))
+
+def test_spell_check1(): 
+	""" Test spell checker for word off by 1 edit """
+
+	word = "helllo"
+	pos_extracter = keyword_extracting_algorithms.part_of_speech_extracter()
+	correction = pos_extracter.correct_word(word)
+	assert "hello" == correction
+
+def test_spell_check2(): 
+	""" Test spell checker for word off by 1 edit """
+
+	word = "raan"
+	pos_extracter = keyword_extracting_algorithms.part_of_speech_extracter()
+	correction = pos_extracter.correct_word(word)
+	assert "ran" == correction
+
+def test_spell_check3(): 
+	""" Test spell checker for word off by more than 2 edits """
+
+	word = "skdjfaksldfj"
+	pos_extracter = keyword_extracting_algorithms.part_of_speech_extracter()
+	correction = pos_extracter.correct_word(word)
+	assert "skdjfaksldfj" == correction
+
+def test_spell_check4(): 
+	""" Test spell checker for word off by 0 edits """
+
+	word = "correct"
+	pos_extracter = keyword_extracting_algorithms.part_of_speech_extracter()
+	correction = pos_extracter.correct_word(word)
+	assert "correct" == correction
+
+def test_tfidf_term_frequency1(): 
+	""" Test TF-IDF frequency calculations  """
+
+	tfidf = keyword_extracting_algorithms.tf_idf(["apple", "apple", "apple"], ["apple", "apple", "banana"])
+	actual = tfidf.find_term_frequency ("apple", ["apple", "apple", "banana"])
+	assert actual == 2
+
+def test_tfidf_term_frequency2(): 
+	""" Test TF-IDF frequency calculations  """
+
+	tfidf = keyword_extracting_algorithms.tf_idf(["apple", "orange", "banana"], ["apple", "apple", "banana"])
+	actual = tfidf.find_term_frequency ("apple", ["apple", "orange", "banana"])
+	assert actual == 1
+
+def test_tfidf_main(): 
+	""" Test main tf-idf weighting scheme  """
+
+	tfidf = keyword_extracting_algorithms.tf_idf(["apple", "orange", "banana"], ["apple", "apple", "banana"])
+	actual = tfidf.tf_idf("apple")
+	assert actual == 1.0986122886681098

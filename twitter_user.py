@@ -6,8 +6,9 @@ class twitter_user(object):
 		self.username = None 
 		self.twitter_data = None 
 
+
 	def populate_twitter_data(self): 
-		""" Populate the user object's twitter_data field with a populated object """ 
-		
+		""" Populate the user object's twitter_data field with a populated twitter_data object """ 
+
 		self.twitter_data = twitter_data(self.username)
 
