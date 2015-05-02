@@ -104,3 +104,54 @@ def test_tfidf_main():
 	tfidf = keyword_extracting_algorithms.tf_idf(["apple", "orange", "banana"], ["apple", "apple", "banana"])
 	actual = tfidf.tf_idf("apple")
 	assert actual == 1.0986122886681098
+
+def test_lemmatization1(): 
+	""" Test the lemmatization function """
+
+	word = "dolls"
+	pos_extracter = keyword_extracting_algorithms.part_of_speech_extracter()
+	base_morpheme= pos_extracter.lemmatization(word)
+	assert "doll" == base_morpheme
+
+def test_lemmatization2(): 
+	""" Test the lemmatization function """
+
+	word = "faded"
+	pos_extracter = keyword_extracting_algorithms.part_of_speech_extracter()
+	base_morpheme= pos_extracter.lemmatization(word)
+	assert "faded" == base_morpheme
+
+def test_lemmatization3(): 
+	""" Test the lemmatization function """
+
+	word = "run"
+	pos_extracter = keyword_extracting_algorithms.part_of_speech_extracter()
+	base_morpheme= pos_extracter.lemmatization(word)
+	assert "run" == base_morpheme
+
+def test_custom_stemming1(): 
+	""" Test the custom stemming class """ 
+
+	word = "running"
+	stemmer = keyword_extracting_algorithms.stemmer({word: 5})
+	new_word = stemmer.stem_word(word)
+
+	assert "running" == new_word
+
+def test_custom_stemming2(): 
+	""" Test the custom stemming class """ 
+
+	word = "offended"
+	stemmer = keyword_extracting_algorithms.stemmer({word: 5})
+	new_word = stemmer.stem_word(word)
+
+	assert "offend" == new_word
+
+def test_custom_stemming3(): 
+	""" Test the custom stemming class """ 
+
+	word = "boxes"
+	stemmer = keyword_extracting_algorithms.stemmer({word: 5})
+	new_word = stemmer.stem_word(word)
+
+	assert "box" == new_word

@@ -1,6 +1,7 @@
 import credentials 
 import urllib
 import json
+import itertools
 
 """ 
 SongFinder class. Constructor takes in a list of keywords. To access song title, artist, or video/lyric url of recommended song, 
@@ -65,10 +66,29 @@ class song_finder(object):
   def popular_song_picker(self):
     """ Pick a popular, chart-topping song if mining of lyrics was unsuccessful """ 
 
-    if self.determine_if_valid_results_exist() == False: 
+    subsets = self.find_all_subsets_of_keywords(set(self.keyword_list))
+    if self.can_pick_song_based_on_keyword_subsets(subsets) == False:
+
       self.url_constructer_for_chart_songs("us")
       self.get_popular_song_data()
       self.parse_chart_data()
+
+  def can_pick_song_based_on_keyword_subsets(self, subsets): 
+    for each in subsets:
+      self.get_lyric_data()
+      if self.determine_if_valid_results_exist(): 
+        return True
+    return False 
+
+
+  def url_constructer_for_lyrics_with_custom_input(self, keyword_set):
+    """ Construct the URL that is needed to access the music data from the MusixMatch database """ 
+  
+    keyword_list = list(keyword_set)
+    self.lyric_api_url = self.root_url + self.method
+    keyword_string = "-".join(self.keyword_list)
+    self.lyric_api_url = self.lyric_api_url + keyword_string +"&apikey=" + self.API_key
+
 
   def url_constructer_for_chart_songs(self, user_country): 
     """ Construct the URL that is needed to access the music data from the MusixMatch database """ 
@@ -76,7 +96,7 @@ class song_finder(object):
     self.chart_url = self.root_url + "chart.tracks.get?page_size=1&country=" + user_country +"&apikey=" + self.API_key
 
   def get_popular_song_data(self): 
-    """ Get the data from the MusixMatch database in JSON form and write the JSON data to the class attribute "data" """ 
+    """ Get the data from the MusixMatch database in JSON form aynd write the JSON data to the class attribute "data" """ 
 
     response = urllib.urlopen(self.chart_url)
     self.chart_data = json.loads(response.read())
@@ -94,10 +114,29 @@ class song_finder(object):
 
   def find_song(self): 
     """ Wrapper for the whole class' functionality """
-    self.url_constructer_for_lyrics(self.keyword_list)
+    self.url_constructer_for_lyrics()
     self.get_lyric_data()
     self.parse_lyric_data()
     self.popular_song_picker()
+
+  def find_all_subsets_of_keywords_of_size_n(self, set_name, num_elements):
+    """ Return all the subsets of keywords of a given size """ 
+
+    return map(set, itertools.combinations(set_name, num_elements))
+
+  def find_all_subsets_of_keywords(self, set_name): 
+
+    """ Find all subsets of all possible lengths of a set, set_name """ 
+    list_of_subsets = []
+
+    for i in range(len(set_name)): 
+      list_of_subsets + self.find_all_subsets_of_keywords_of_size_n(set_name, i)
+
+    list_of_subsets.append(set_name)
+
+    return list_of_subsets
+
+
 
 
 

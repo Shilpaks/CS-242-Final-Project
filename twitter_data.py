@@ -15,6 +15,8 @@ class twitter_data(object):
 		self.keyword_list = []
 		self.popular_words_dictionary = {}
 
+		self.num_recent_tweets = 1
+
 
 	def authentication(self): 
 		""" OAuth Authentication for Twitter API """ 
@@ -44,7 +46,8 @@ class twitter_data(object):
 		for tweet in public_tweets:
 			my_tweets.append(tweet.text)
 
-		return [str(x) for x in my_tweets]
+		all_tweets = [str(x) for x in my_tweets]
+		return all_tweets[0:self.num_recent_tweets]
 
 
 

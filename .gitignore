@@ -48,3 +48,5 @@ docs/_build/
 target/
 # Credentials file 
 credentials.py
+#PDFs 
+*.pdf 

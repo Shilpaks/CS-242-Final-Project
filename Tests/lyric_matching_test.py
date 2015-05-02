@@ -66,3 +66,30 @@ def test_determine_if_valid_results_exist():
 
 	sf = lyric_matching.song_finder(["romeo", "somewhere"])
 	assert sf.determine_if_valid_results_exist() == False
+
+def test_subset_functions1():
+	""" Test the subset making function for keywords"""  
+
+	s = set([1,2,3])
+	l = [set([1]), set([2]), set([3])]
+	sf = lyric_matching.song_finder(["romeo", "somewhere"])
+	subsets = sf.find_all_subsets_of_keywords_of_size_n(s, 1)
+	assert subsets == l
+
+def test_subset_functions2(): 
+	""" Test the subset making function for keywords"""  
+
+	s = set([1,2,3])
+	l = [set([1, 2]), set([1, 3]), set([2, 3])]
+	sf = lyric_matching.song_finder(["romeo", "somewhere"])
+	subsets = sf.find_all_subsets_of_keywords_of_size_n(s, 2)
+	assert subsets == l
+
+def test_subset_functions3(): 
+	""" Test the subset making function for keywords"""  
+
+	s = set([1,2,3])
+	l = [set([1, 2, 3])]
+	sf = lyric_matching.song_finder(["romeo", "somewhere"])
+	subsets = sf.find_all_subsets_of_keywords_of_size_n(s, 3)
+	assert subsets == l
