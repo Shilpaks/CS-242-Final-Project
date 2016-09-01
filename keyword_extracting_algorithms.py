@@ -5,17 +5,14 @@ import math
 class part_of_speech_extracter(object):
 	""" Extract keywords from a list of tweets based on a configurable set of 
 	parts of speech (only pick words that are a part of those parts of speech) """
-
-
+	
 	def __init__(self): 
 
 		self.keywords = []
 		self.popular_words_dictionary = {}
 		self.spell_checker = spell_checker.spell_checker()
 		self.populate_exceptions_dictionary()
-
-
-
+		
 	def parse_nouns_and_verbs(self, tweet_list): 
 		""" For each tweet, pull out only the nouns and verbs in the tweet and 
 		return a corresponding list 
@@ -34,7 +31,6 @@ class part_of_speech_extracter(object):
 					cur_freq += 1 
 					self.popular_words_dictionary[corrected_word] = cur_freq
 		return self.popular_words_dictionary
-
 
 	def lemmatization(self, word):
 		""" Function that implements lemmatization. Lemmatization is grouping words of the same meaning or base morpheme together
@@ -72,9 +68,7 @@ class part_of_speech_extracter(object):
 		actual, correctly-spelled representations """ 
 
 		self.exceptions_dictionary = {"u": "you", "ur": "your", "wen": "when", "y": "why"}
-
-
-
+		
 	def correct_word(self, word): 
 		""" Given a word as input, determine if that word is a common mispelling, and if it is, return the word's mapping in the 
 		exceptions dictionary. If the word is not a common mispelling, return the results of the spell_checker. If the word is not mispelled at all, 
@@ -88,7 +82,6 @@ class part_of_speech_extracter(object):
 		else:
 			new_word = self.spell_checker.correct(word)
 		return new_word
-
 
 class stemmer(object): 
 	""" Class that implements stemming in the context of lemmatization """
@@ -114,7 +107,6 @@ class stemmer(object):
     				return  new_word
 		return word
 
-
    	""" 
    	Determine if a word stem is still an acutal word 
 	@param stemmed_word: word post-stemming
@@ -129,9 +121,6 @@ class stemmer(object):
 		else: 
 			return False
 
-
-
-
 class tf_idf(object): 
 	""" Class that implements the TF-IDF (term frequency, inverse document frequency) algorithm """
 
@@ -143,7 +132,6 @@ class tf_idf(object):
 		self.popular_words_dictionary = {}
 		self.corpora_word_freq_dict = {}
 		self.find_frequencies_of_words_in_corpora()
-
 
 	def find_term_frequency(self, word, keywords): 
 		""" 
@@ -173,7 +161,6 @@ class tf_idf(object):
 			cur_freq += 0
 			self.corpora_word_freq_dict[each] = cur_freq
 
-
 	def tf_idf(self, word):
 		""" 
 		Main TF-IDF method 
@@ -182,7 +169,6 @@ class tf_idf(object):
 			@param document_frequency: the frequency of the word in the document 
 
 		""" 
-
 		term_frequency = self.find_term_frequency(word, self.keywords)
 		document_frequency = self.corpora_word_freq_dict[word]
 
